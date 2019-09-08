@@ -5,6 +5,7 @@
     <Form1 Type="TestClient.Form1" Title="Form1" TitleName="Text">
       <uC_Test1 TitleName="Text">
         <groupControl1 TitleName="Text">groupControl1</groupControl1>
+		<btnTest TitleName="Text">Test</btnTest> 
       </uC_Test1>
     </Form1>
     <Frm Type="TestClient.Frm" Title="Frm" TitleName="Text">

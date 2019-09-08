@@ -255,7 +255,16 @@ namespace LanguageConverter
             {
                 foreach(XmlNode child in node.ChildNodes)
                 {
-                    CreateContent(child, sbr);
+                    if (child.NodeType == XmlNodeType.Element)
+                    {
+                        CreateContent(child, sbr);
+                    }
+                    else if(child.NodeType==XmlNodeType.Text)
+                    {
+                        sbr.AppendFormat("{0}.{1}={2}", node.Name, node.Attributes["TitleName"].Value, node.InnerText);
+                        sbr.Append(Environment.NewLine);
+                    }
+                        
                 }
             }
             else
