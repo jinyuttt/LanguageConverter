@@ -64,5 +64,17 @@ namespace LanguageConverter
             sw.WriteLine(sbr.ToString());
             sw.Close();
         }
+
+        private void Btn_XML_Click(object sender, System.EventArgs e)
+        {
+            ScanAssembly scan = new ScanAssembly();
+            scan.LanguageXML();
+        }
+
+        private void btnSrc_Click(object sender, System.EventArgs e)
+        {
+            LanguageSource source = new LanguageSource();
+            source.CreateSrc();
+        }
     }
 }

@@ -29,30 +29,42 @@
         private void InitializeComponent()
         {
             this.uC_Test1 = new TestClient.UC_Test();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.SuspendLayout();
             // 
             // uC_Test1
             // 
             this.uC_Test1.Location = new System.Drawing.Point(12, 12);
             this.uC_Test1.Name = "uC_Test1";
-            this.uC_Test1.Size = new System.Drawing.Size(776, 426);
+            this.uC_Test1.Size = new System.Drawing.Size(370, 181);
             this.uC_Test1.TabIndex = 0;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(77, 72);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(81, 18);
+            this.labelControl1.TabIndex = 1;
+            this.labelControl1.Text = "labelControl1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.uC_Test1);
             this.Name = "Form1";
             this.Text = "测试窗口";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private UC_Test uC_Test1;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
     }
 }
 

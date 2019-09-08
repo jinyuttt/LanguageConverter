@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Language>
+  <LanguageName>zh-cn</LanguageName>
+  <Assembly FileName="TestClient.exe">
+    <Form1 Type="TestClient.Form1" Title="Form1" TitleName="Text">
+      <uC_Test1 TitleName="Text">
+        <groupControl1 TitleName="Text">groupControl1</groupControl1>
+      </uC_Test1>
+    </Form1>
+    <Frm Type="TestClient.Frm" Title="Frm" TitleName="Text">
+      <panel1 TitleName="Text">
+        <groupBox1 TitleName="Text">测试</groupBox1>
+        <textBox1 TitleName="Text">
+        </textBox1>
+        <labelControl1 TitleName="Text">用户：</labelControl1>
+      </panel1>
+    </Frm>
+    <FrmMin Type="TestClient.FrmMin" Title="FrmMin" TitleName="Text">
+      <ribbonStatusBar TitleName="Text">
+      </ribbonStatusBar>
+      <ribbon TitleName="Text">
+      </ribbon>
+    </FrmMin>
+    <UC_Test Type="TestClient.UC_Test" Title="" TitleName="Text">
+      <groupControl1 TitleName="Text">groupControl1</groupControl1>
+    </UC_Test>
+  </Assembly>
+</Language>

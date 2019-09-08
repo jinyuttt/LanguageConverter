@@ -32,7 +32,7 @@ namespace LanguageConverter
             return sbr.ToString();
         }
 
-       /// <summary>
+        /// <summary>
        /// 记录转换内容
        /// </summary>
        /// <param name="Value"></param>
@@ -124,8 +124,14 @@ namespace LanguageConverter
                 doc.AppendChild(dec);
                 XmlElement root = doc.CreateElement("Language");
                 doc.AppendChild(root);
+                //
+                XmlElement name= doc.CreateElement("LanguageName");
+                name.InnerText = "zh-cn";
+                root.AppendChild(name);
+
             }
             var asm = Assembly.LoadFile(file);
+           
             var types = asm.DefinedTypes.Where(X => (typeof(Control).IsAssignableFrom(X)));
             XmlElement p = doc.CreateElement("Assembly");
             //
@@ -160,13 +166,13 @@ namespace LanguageConverter
 
         }
     
-       /// <summary>
+        /// <summary>
        /// 保存
        /// </summary>
         public void Save()
         {
-            doc.Save("Lang-ZH-CN.xml");
-            using (StreamWriter sw = new StreamWriter("StringContent.csv",false,Encoding.Default)) 
+            doc.Save(@"Output\\Lang-ZH-CN.xml");
+            using (StreamWriter sw = new StreamWriter(@"Output\\LabelContent.csv", false,Encoding.Default)) 
             {
                 sw.WriteLine("zh-cn");
                 foreach(var lin in lstContent)
@@ -176,7 +182,207 @@ namespace LanguageConverter
             }
             lstContent.Clear();
         }
-    
+        
+        /// <summary>
+        /// 获取字典
+        /// </summary>
+        /// <param name="zh_cn"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private Dictionary<string,string> GetConvert(int zh_cn=0,int index=0)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            using (StreamReader rd = new StreamReader(@"Output\\LabelContent.csv",Encoding.Default))
+            {
+                while (rd.Peek() != -1)
+                {
+                    string line = rd.ReadLine();
+                    if (!string.IsNullOrEmpty(line.Trim()))
+                    {
+                        string[]  words = line.Split(',');
+                        dic[words[zh_cn]] = words[index];
+                    }
+
+                }
+            }
+            return dic;
+        }
+
+
+        /// <summary>
+        /// 创建语言XML
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="name"></param>
+        private void CreateXML(Dictionary<string, string> dic, string name)
+        {
+            string file = @"Output\\Lang-" + name.ToUpper() + ".xml";
+            if(File.Exists(file))
+            {
+                File.Delete(file);
+            }
+            File.Copy(@"Output\\Lang-ZH-CN.xml",file);
+            XmlDocument document = new XmlDocument();
+            document.Load(file);
+           var langName= document.DocumentElement.SelectSingleNode("LanguageName");
+            if (langName != null)
+            {
+                langName.InnerText = name.ToLower();
+            }
+
+            foreach (XmlNode node in document.DocumentElement.ChildNodes)
+            {
+                XmlElement element = (XmlElement)node;
+                if(element.GetAttributeNode("Title")!=null)
+                {
+                    string v = element.GetAttribute("Title");
+                    string ch= IsChinese(v);
+                    if(!string.IsNullOrEmpty(ch))
+                    {
+                        //如果中间有空格
+                        if (ch.Length != v.Length)
+                        {
+                            v=Regex.Replace(v, @"\s", "");
+                        }
+                        v = v.Replace(ch, dic[ch]);
+                        element.SetAttribute("Title", v);
+                    }
+                    if (element.HasChildNodes)
+                    {
+                        Find(node, dic);
+                    }
+                }
+                else if(node.HasChildNodes)
+                {
+                    Find(node,dic);
+                }
+                else
+                {
+                    string v = node.InnerText;
+                    string ch = IsChinese(v);
+                    if (!string.IsNullOrEmpty(ch))
+                    {
+                        //如果中间有空格
+                        if (ch.Length != v.Length)
+                        {
+                            v = Regex.Replace(v, @"\s", "");
+                        }
+                        v = v.Replace(ch, dic[ch]);
+                    }
+                }
+            }
+            document.Save(file);
+        }
+        
+        /// <summary>
+        /// 替换显示
+        /// </summary>
+        /// <param name="child"></param>
+        /// <param name="dic"></param>
+        private void Find(XmlNode child,Dictionary<string,string> dic)
+        {
+            foreach (XmlNode node in child.ChildNodes)
+            {
+                if (node.Attributes != null && node.Attributes["Title"] != null)
+                {
+                    var Attri = node.Attributes["Title"];
+                    string v = Attri.Value;
+                    string ch = IsChinese(v);
+                    if (!string.IsNullOrEmpty(ch))
+                    {
+                        //如果中间有空格
+                        if (ch.Length != v.Length)
+                        {
+                            v = Regex.Replace(v, @"\s", "");
+                        }
+                        v = v.Replace(ch, dic[ch]);
+                        Attri.Value = v;
+
+                    }
+                    //
+                    if (node.HasChildNodes)
+                    {
+                        Find(node, dic);
+                    }
+
+                }
+                else if (node.HasChildNodes)
+                {
+                    Find(node, dic);
+                }
+                else
+                {
+                    string v = node.InnerText;
+                    string ch = IsChinese(v);
+                    if (!string.IsNullOrEmpty(ch))
+                    {
+                        //如果中间有空格
+                        if (ch.Length != v.Length)
+                        {
+                            v = Regex.Replace(v, @"\s", "");
+                        }
+                        v = v.Replace(ch, dic[ch]);
+                        node.InnerText = v;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 处理XML
+        /// </summary>
+        public void LanguageXML()
+        {
+            List<string> lst = new List<string>();//获取所有语言代码
+            using(StreamReader rd=new StreamReader(@"Output\\Language.csv"))
+            {
+                while(rd.Peek()!=-1)
+                {
+                    string line = rd.ReadLine();
+                    string[] name = line.Split(',');
+                    lst.Add(name[1]);
+                }
+            }
+            //找到翻译顺序
+            List<string> lstCode = new List<string>();
+            using (StreamReader rd = new StreamReader(@"Output\\LabelContent.csv"))
+            {
+                while (rd.Peek() != -1)
+                {
+                    string line = rd.ReadLine();
+                    if(!string.IsNullOrEmpty(line.Trim()))
+                    {
+                        string[] name = line.Split(',');
+                        lstCode.AddRange(name);
+                        break;
+                    }
+                 
+                }
+            }
+            //按照代码名称生成XML
+            int zh_cn = 0;
+            zh_cn = lstCode.IndexOf("zh-cn");
+            if (zh_cn > -1)
+            {
+                for (int i = 0; i < lst.Count; i++)
+                {
+                    if(lst[i]=="zh-cn")
+                    {
+                        continue;
+                    }
+                    int index = lstCode.IndexOf(lst[i]);
+
+                    if (index > -1)
+                    {
+                        var dic = GetConvert(zh_cn, index);
+                        CreateXML(dic, lst[i]);
+                    }
+
+                }
+            }
+           
+        }
+   
     }
 
     /// <summary>

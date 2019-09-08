@@ -32,11 +32,14 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtFile = new System.Windows.Forms.TextBox();
             this.btnTest = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btn_XML = new System.Windows.Forms.Button();
+            this.btnSrc = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnOPen
             // 
-            this.btnOPen.Location = new System.Drawing.Point(652, 138);
+            this.btnOPen.Location = new System.Drawing.Point(637, 52);
             this.btnOPen.Name = "btnOPen";
             this.btnOPen.Size = new System.Drawing.Size(75, 23);
             this.btnOPen.TabIndex = 0;
@@ -50,7 +53,7 @@
             // 
             // txtFile
             // 
-            this.txtFile.Location = new System.Drawing.Point(132, 139);
+            this.txtFile.Location = new System.Drawing.Point(167, 50);
             this.txtFile.Name = "txtFile";
             this.txtFile.Size = new System.Drawing.Size(455, 25);
             this.txtFile.TabIndex = 1;
@@ -65,11 +68,43 @@
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(64, 53);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(97, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "程序集目录：";
+            // 
+            // btn_XML
+            // 
+            this.btn_XML.Location = new System.Drawing.Point(304, 123);
+            this.btn_XML.Name = "btn_XML";
+            this.btn_XML.Size = new System.Drawing.Size(75, 23);
+            this.btn_XML.TabIndex = 4;
+            this.btn_XML.Text = "转换XML文件";
+            this.btn_XML.UseVisualStyleBackColor = true;
+            this.btn_XML.Click += new System.EventHandler(this.Btn_XML_Click);
+            // 
+            // btnSrc
+            // 
+            this.btnSrc.Location = new System.Drawing.Point(416, 123);
+            this.btnSrc.Name = "btnSrc";
+            this.btnSrc.Size = new System.Drawing.Size(75, 23);
+            this.btnSrc.TabIndex = 7;
+            this.btnSrc.Text = "生成源文件";
+            this.btnSrc.UseVisualStyleBackColor = true;
+            this.btnSrc.Click += new System.EventHandler(this.btnSrc_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(737, 423);
+            this.Controls.Add(this.btnSrc);
+            this.Controls.Add(this.btn_XML);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.txtFile);
             this.Controls.Add(this.btnOPen);
@@ -86,6 +121,9 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox txtFile;
         private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btn_XML;
+        private System.Windows.Forms.Button btnSrc;
     }
 }
 

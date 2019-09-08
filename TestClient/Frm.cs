@@ -17,5 +17,14 @@ namespace TestClient
         {
             InitializeComponent();
         }
+
+        private void Load(SortedSetss)
+        {
+            
+        }
+        public void Init()
+        {
+            this.labelControl1.Text = "ddddd";
+        }
     }
 }
